@@ -167,7 +167,7 @@ public class IdToken extends JsonWebSignature {
 
     /** Time (in seconds) of end-user authorization or {@code null} for none. */
     @Key("auth_time")
-    private Long authorizationTimeSeconds;
+    private Double authorizationTimeSeconds;
 
     /** Authorized party or {@code null} for none. */
     @Key("azp")
@@ -190,7 +190,7 @@ public class IdToken extends JsonWebSignature {
     private List<String> methodsReferences;
 
     /** Returns the time (in seconds) of end-user authorization or {@code null} for none. */
-    public final Long getAuthorizationTimeSeconds() {
+    public final double getAuthorizationTimeSeconds() {
       return authorizationTimeSeconds;
     }
 
@@ -202,7 +202,7 @@ public class IdToken extends JsonWebSignature {
      * the return type, but nothing else.
      * </p>
      */
-    public Payload setAuthorizationTimeSeconds(Long authorizationTimeSeconds) {
+    public Payload setAuthorizationTimeSeconds(double authorizationTimeSeconds) {
       this.authorizationTimeSeconds = authorizationTimeSeconds;
       return this;
     }

@@ -156,6 +156,18 @@ public class IdTokenVerifier {
   }
 
   /**
+   * Specical case of PayPal, whose idToken has an expirationTime returned
+   * @param idToken
+   * @return
+   */
+  public boolean paypalVerify(IdToken idToken) {
+    return (issuers == null || idToken.verifyIssuer(issuers))
+            && (audience == null || idToken.verifyAudience(audience))
+            && idToken.verifyIssuedAtTime(clock.currentTimeMillis(), acceptableTimeSkewSeconds)
+            && idToken.verifyExpirationTimePaypal(clock.currentTimeMillis(), acceptableTimeSkewSeconds);
+  }
+
+  /**
    * {@link Beta} <br/>
    * Builder for {@link IdTokenVerifier}.
    *

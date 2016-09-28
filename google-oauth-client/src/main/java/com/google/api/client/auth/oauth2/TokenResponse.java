@@ -46,7 +46,7 @@ public class TokenResponse extends GenericJson {
    * Lifetime in seconds of the access token (for example 3600 for an hour) or {@code null} for
    * none.
    */
-  @Key("expires_in")
+  //@Key("expires_in")
   private Long expiresInSeconds;
 
   /**
@@ -170,6 +170,20 @@ public class TokenResponse extends GenericJson {
 
   @Override
   public TokenResponse set(String fieldName, Object value) {
+    if (fieldName.equals("expires_in")) {
+      if (value instanceof String) {
+        try {
+          expiresInSeconds = Long.parseLong((String) value);
+        } catch (NumberFormatException e) {
+          throw new IllegalArgumentException("Value of expires_in is not a number: " + value);
+        }
+      } else if (value instanceof Number) {
+        expiresInSeconds = Long.valueOf(((Number) value).longValue());
+      } else {
+        throw new IllegalArgumentException("Unknown value type for expires_in: " + value.getClass().getName());
+      }
+    }
+
     return (TokenResponse) super.set(fieldName, value);
   }
 

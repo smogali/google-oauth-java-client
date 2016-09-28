@@ -112,7 +112,6 @@ public class IdToken extends JsonWebSignature {
     return verifyExpirationTime(currentTimeMillis, acceptableTimeSkewSeconds)
         && verifyIssuedAtTime(currentTimeMillis, acceptableTimeSkewSeconds);
   }
-
   /**
    * Returns whether the {@link Payload#getExpirationTimeSeconds} is valid relative to the current
    * time, allowing for a clock skew as specified in step 5 of <a
@@ -127,6 +126,19 @@ public class IdToken extends JsonWebSignature {
       long currentTimeMillis, long acceptableTimeSkewSeconds) {
     return currentTimeMillis
         <= (getPayload().getExpirationTimeSeconds() + acceptableTimeSkewSeconds) * 1000;
+  }
+
+  /**
+   * Special case to handle Paypal, whose IdToken expiration value is given in time relative to the IssuedAtTime,
+   * e.g. ExpirationTime = 28800 seconds, rather than expires at 1475085130 seconds.
+   * @param currentTimeMillis
+   * @param acceptableTimeSkewSeconds
+   * @return
+   */
+  public final boolean verifyExpirationTimePaypal(
+          long currentTimeMillis, long acceptableTimeSkewSeconds) {
+    return currentTimeMillis
+            <= (getPayload().getIssuedAtTimeSeconds() + getPayload().getExpirationTimeSeconds() + acceptableTimeSkewSeconds) * 1000;
   }
 
   /**

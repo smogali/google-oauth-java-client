@@ -156,15 +156,14 @@ public class IdTokenVerifier {
   }
 
   /**
-   * Specical case of PayPal, whose idToken has an expirationTime returned
+   * Specical case of PayPal, whose idToken has an exp key returned but no iat key.
    * @param idToken
    * @return
    */
   public boolean paypalVerify(IdToken idToken) {
     return (issuers == null || idToken.verifyIssuer(issuers))
             && (audience == null || idToken.verifyAudience(audience))
-            && idToken.verifyIssuedAtTime(clock.currentTimeMillis(), acceptableTimeSkewSeconds)
-            && idToken.verifyExpirationTimePaypal(clock.currentTimeMillis(), acceptableTimeSkewSeconds);
+            && idToken.verifyExpirationTime(clock.currentTimeMillis(), acceptableTimeSkewSeconds);
   }
 
   /**

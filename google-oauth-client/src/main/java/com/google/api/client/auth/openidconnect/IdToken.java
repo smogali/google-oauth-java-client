@@ -129,19 +129,6 @@ public class IdToken extends JsonWebSignature {
   }
 
   /**
-   * Special case to handle Paypal, whose IdToken expiration value is given in time relative to the IssuedAtTime,
-   * e.g. ExpirationTime = 28800 seconds, rather than expires at 1475085130 seconds.
-   * @param currentTimeMillis
-   * @param acceptableTimeSkewSeconds
-   * @return
-   */
-  public final boolean verifyExpirationTimePaypal(
-          long currentTimeMillis, long acceptableTimeSkewSeconds) {
-    return currentTimeMillis
-            <= (getPayload().getIssuedAtTimeSeconds() + getPayload().getExpirationTimeSeconds() + acceptableTimeSkewSeconds) * 1000;
-  }
-
-  /**
    * Returns whether the {@link Payload#getIssuedAtTimeSeconds} is valid relative to the current
    * time, allowing for a clock skew as specified in step 6 of <a
    * href="http://openid.net/specs/openid-connect-basic-1_0-27.html#id.token.validation">ID Token

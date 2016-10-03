@@ -170,6 +170,7 @@ public class TokenResponse extends GenericJson {
 
   @Override
   public TokenResponse set(String fieldName, Object value) {
+    // https://github.com/google/google-oauth-java-client/issues/62
     if (fieldName.equals("expires_in")) {
       if (value instanceof String) {
         try {
